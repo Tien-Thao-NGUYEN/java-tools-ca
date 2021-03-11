@@ -1,13 +1,19 @@
 package config_psearch;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import objects_psearch.SLTransition;
+import objects_simulator.Simulator;
 import objects_simulator.Tuple;
+import rule.FSSPRule;
 import simulator_interface.Diagram_Interface;
 import simulator_interface.GConfig_Interface;
+import simulator_interface.Simulator_Interface;
 
 public class SLTTableControler {
 	private static <T> void takeNewLTransitionDt(GConfig_Interface<T> gc_0, int nCellLeft, int nCellRight, int dt, T o,
@@ -51,5 +57,26 @@ public class SLTTableControler {
 		SLTTableControler.takeNewLTransitionDelta_t(dgm, nCellLeft, nCellRight, delta_t, o, dtMap.get(delta_t + 1),
 				existeTuple);
 
+	}
+	
+	public static Map<Integer, List<SLTransition<Integer>>> getSLTTable(FSSPRule rule, int beginSize, int endSize,
+			int delta_t) {
+		int nCellLeft = rule.getSolutionInfo().nCellLeft();
+		int nCellRight = rule.getSolutionInfo().nCellRight();
+		Integer o = rule.getSolutionInfo().spaceOutState();
+
+		Map<Integer, List<SLTransition<Integer>>> sltTable = new HashMap<>();
+		for (int dt = 1; dt <= delta_t + 1; dt++)
+			sltTable.put(dt, new ArrayList<>());
+
+		Set<Tuple<Integer>> existeTuple = new HashSet<>();
+
+		Simulator_Interface<Integer> sim = new Simulator<>(rule);
+		for (int size = beginSize; size <= endSize; size++) {
+			Diagram_Interface<Integer> dgm = sim.getDiagram(rule.getGC0(size));
+			SLTTableControler.extractDtSLTFromDgm(dgm, nCellLeft, nCellRight, delta_t, o, sltTable, existeTuple);
+		}
+
+		return sltTable;
 	}
 }

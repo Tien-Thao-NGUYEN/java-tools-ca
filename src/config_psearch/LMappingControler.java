@@ -1,15 +1,21 @@
 package config_psearch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import objects_psearch.TransformElement;
+import objects_simulator.Simulator;
 import objects_simulator.Tuple;
+import rule.FSSPRule;
 import simulator_interface.Diagram_Interface;
 import simulator_interface.GConfig_Interface;
+import simulator_interface.Simulator_Interface;
 
 public class LMappingControler {
 	private static <T> void takeNewLTransformElementDt(Diagram_Interface<T> dgm, int t, int nCellLeft, int nCellRight, int dt, T o,
@@ -69,5 +75,32 @@ public class LMappingControler {
 	
 	public static <T> List<T> getInitialCandidate(List<TransformElement<T>> mergeList) {
 		return mergeList.stream().map(e -> e.res()).collect(Collectors.toList());
+	}
+	
+	public static Map<Integer, List<TransformElement<Integer>>> getLocalMapping(FSSPRule rule, int beginSize,
+			int endSize, int delta_t) {
+		int nCellLeft = rule.getSolutionInfo().nCellLeft();
+		int nCellRight = rule.getSolutionInfo().nCellRight();
+		Integer o = rule.getSolutionInfo().spaceOutState();
+
+		Map<Integer, List<TransformElement<Integer>>> localMapping = new HashMap<>();
+		IntStream.rangeClosed(0, delta_t).forEach(h -> {
+			localMapping.put(h, new ArrayList<>());
+		});
+
+		Set<Tuple<Integer>> existeTuple = new HashSet<>();
+
+		Simulator_Interface<Integer> sim = new Simulator<>(rule);
+		for (int size = beginSize; size <= endSize; size++) {
+			Diagram_Interface<Integer> dgm = sim.getDiagram(rule.getGC0(size));
+			LMappingControler.extractHMapFromDgm(dgm, nCellLeft, nCellRight, delta_t, o, localMapping, existeTuple);
+		}
+
+		localMapping.forEach((k, v) -> {
+			TransformElement<Integer> te = new TransformElement<>(Tuple.getOTuple(nCellLeft, nCellRight, k, o), o);
+			v.add(te);
+		});
+
+		return localMapping;
 	}
 }
