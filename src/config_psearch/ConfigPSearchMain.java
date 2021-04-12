@@ -18,14 +18,14 @@ import simulator_interface.SolutionInfo_Interface;
 public class ConfigPSearchMain {
 
 	public static void main(String[] args) throws IOException {
-		int sol = 3;
+		int sol = 718;
 		int beginSize = 2;
 		int endSize = 500;
 		int delta_t = 1;
 		FSSPRule rule = RuleReader.fsspRuleFromTextFile(Path.getOneOf718SolutionsFilter(sol));
 		SolutionInfo_Interface<Integer> info = rule.getSolutionInfo();
 
-		System.out.println("****** build slt table ******");
+		System.out.println("****** build slt table and result location list******");
 		Map<Integer, List<SLTransition<Integer>>> sltTable = SLTTableControler.getSLTTable(rule, beginSize, endSize, delta_t);
 //		sltTable.forEach((k, v) -> {
 //			System.out.println(k + " ---");
@@ -67,7 +67,7 @@ public class ConfigPSearchMain {
 //		indexLinkerList.forEach(System.out::println);
 
 		JSONObject jsonObject = WriteJSON.getJSONObject(info, sltTable, localMapping, indexLinkerList, initialCandidate,
-				changeableIndexList);
+				changeableIndexList, SLTTableControler.resultLocationList);
 		WriteJSON.write(jsonObject, Path.getOneOf718SolutionsJSON(sol, delta_t));
 	}
 

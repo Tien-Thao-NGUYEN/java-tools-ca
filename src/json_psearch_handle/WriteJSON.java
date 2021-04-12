@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import objects_psearch.IndexLinker;
 import objects_psearch.SLTransition;
 import objects_psearch.TransformElement;
+import objects_simulator.Location;
 import simulator_interface.SolutionInfo_Interface;
 
 //called in ConfigPSearchMain
@@ -20,7 +21,7 @@ public class WriteJSON {
 	public static <T> JSONObject getJSONObject(SolutionInfo_Interface<T> info,
 			Map<Integer, List<SLTransition<Integer>>> sltTable,
 			Map<Integer, List<TransformElement<Integer>>> localMapping, List<IndexLinker> indexLinkerList,
-			List<T> initialCandidate, List<Integer> changeableIndexList) {
+			List<T> initialCandidate, List<Integer> changeableIndexList, List<Location> resultLocationList) {
 		JSONObject jsonObject = new JSONObject();
 
 		/** info */
@@ -67,6 +68,13 @@ public class WriteJSON {
 			changeableIndexJA.add(e.toString());
 		});
 		jsonObject.put(JSONKey.CHANGEABLE_INDEX_LIST, changeableIndexJA);
+		
+		/** result localtion list **/
+		JSONArray resultLocationJA = new JSONArray();
+		resultLocationList.forEach(e -> {
+			resultLocationJA.add(e.toString());
+		});
+		jsonObject.put(JSONKey.RESULT_LOCATION_LIST, resultLocationJA);
 
 		return jsonObject;
 	}

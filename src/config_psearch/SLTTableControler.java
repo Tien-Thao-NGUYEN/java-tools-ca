@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import objects_psearch.SLTransition;
+import objects_simulator.Location;
 import objects_simulator.Simulator;
 import objects_simulator.Tuple;
 import rule.FSSPRule;
@@ -16,6 +17,9 @@ import simulator_interface.GConfig_Interface;
 import simulator_interface.Simulator_Interface;
 
 public class SLTTableControler {
+	//localtion pour un état dans diagram résulta
+	public static List<Location> resultLocationList = new ArrayList<>();
+	
 	private static <T> void takeNewLTransitionDt(GConfig_Interface<T> gc_0, int nCellLeft, int nCellRight, int dt, T o,
 			List<SLTransition<T>> sltList, Set<Tuple<T>> existeTuple) {
 		for (int p = 0; p < gc_0.size(); p++) {
@@ -25,6 +29,8 @@ public class SLTTableControler {
 				sltList.add(slt);
 				existeTuple.add(slcTuple);
 //				System.out.println(gc_0.size());
+				//localtion: gc_0.size, dt, p;
+				resultLocationList.add(new Location(gc_0.size(), dt, p));
 			}
 		}
 	}
@@ -43,6 +49,8 @@ public class SLTTableControler {
 					sltList.add(slt);
 					existeTuple.add(slcTuple);
 //					System.out.println(gc_t.size());
+					//localtion: gc_t.size, (t + 1) + dt, p;//(t + 1) parce que je veux la location de destination cellule résultat
+					resultLocationList.add(new Location(gc_t1.size(), t + 1 + delta_t, p));
 				}
 			}
 		}

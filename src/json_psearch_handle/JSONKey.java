@@ -11,5 +11,5 @@ public class JSONKey {
 	public static final String CHANGEABLE_INDEX_LIST= "changeable_index_list";
 	public static final String INITIAL_CANDIDATE = "initial_candidate";
 	//TODO ajouter reorderVList
-	//TODO ajouter locationList
+	public static final String RESULT_LOCATION_LIST = "result_location_list";
 }
