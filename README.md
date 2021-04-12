@@ -5,3 +5,5 @@ Ce projet contient les outils pour travailler avec l'automate cellulaire:
  - Les solutions en temps 3n du problème synchronisation des fusiliers (FSSP) en utilisant la méthode "Field-Base".
  - Implémentation de notre algorithme pour explorer des millions de solutions en utilisant le concept de local mapping.
  - Outils pour créer les fichiers JSON, les entrées pour l'implémentation de notre algorithme.
+
+Pour l'instant, ce projet ne contient que le simulateur, l'outil pour créer les fichiers JSON et l'implémentation de notre algorithme. Des améliorations sont envisagées.
