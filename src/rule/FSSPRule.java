@@ -2,10 +2,10 @@ package rule;
 
 import java.util.Map;
 
-import objects_simulator.AbstractRule;
-import simulator_interface.GConfig_Interface;
-import simulator_interface.LConfig_Interface;
-import simulator_interface.SolutionInfo_Interface;
+import simulator.implement.AbstractRule;
+import simulator.interfaces.GConfig_Interface;
+import simulator.interfaces.LConfig_Interface;
+import simulator.interfaces.SolutionInfo_Interface;
 
 public class FSSPRule extends AbstractRule<Integer> {
 	
