@@ -42,11 +42,12 @@ public class Simulator<T> implements Simulator_Interface<T>{
 		Diagram_Interface<T> dgm = new Diagram<T>(initialGConfig, rule.getSolutionInfo());
 		
 		GConfig_Interface<T> newGConfig = initialGConfig;
+		System.out.println(t + "\t" + newGConfig);
 		while (!rule.stop(newGConfig)) {
-			System.out.println(t + "\t" + newGConfig);
 			t++;
 			newGConfig = oneStep(newGConfig);
 			dgm.add(newGConfig);
+			System.out.println(t + "\t" + newGConfig);
 		}
 		return dgm;
 	}

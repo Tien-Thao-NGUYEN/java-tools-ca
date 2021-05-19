@@ -11,6 +11,11 @@ public class RTSGRule extends AbstractRule<Integer>{
 	private int currentGeneratedNumber;
 	private int maxGeneratedNumber;
 	
+	public RTSGRule(SolutionInfo_Interface<Integer> info) {
+		super(info);
+		this.currentGeneratedNumber = 0;
+	}
+	
 	public RTSGRule(SolutionInfo_Interface<Integer> info, Map<LConfig_Interface<Integer>, Integer> map) {
 		super(info, map);
 		this.currentGeneratedNumber = 0;

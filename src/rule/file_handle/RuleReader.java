@@ -94,7 +94,7 @@ public class RuleReader {
 		return new FSSPRule(data.info(), data.map());
 	}
 	
-	public static RTSGRule gsncRuleFromTextFile(String file) throws IOException {
+	public static RTSGRule rtsgRuleFromTextFile(String file) throws IOException {
 		RuleData<Integer, Integer> data = dataFromTextFile(file);
 		return new RTSGRule(data.info(), data.map());
 	}
