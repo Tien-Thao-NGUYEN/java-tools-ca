@@ -1,14 +1,14 @@
 package tikz.main_tikz;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import rule.file_handle.Path;
 import rule.file_handle.RuleReader;
-import simulator.implement.Diagram;
-import simulator.implement.Location;
 import simulator.implement.Simulator;
 import simulator.interfaces.Diagram_Interface;
-import simulator.interfaces.GConfig_Interface;
 import simulator.interfaces.Rule_Interface;
 import simulator.interfaces.Simulator_Interface;
 import tikz.save_to_tikz_file.FileWriter;
@@ -18,34 +18,70 @@ import tikz.tikz_itf_implement.TikzInterface;
 
 
 public class MainDiagram {
+	public static String PATH_UMEO = Path.DATA_RTSG_N3_UMEO_RULE;
+	public static String PATH_5_STATE_HAND_CRAFT = Path.DATA_RTSG_N3_5_72_RULE;
+	public static String PATH_5_STATE_58_RULE = Path.DATA_RTSG_N3_5_58_RULE;
+	public static String PATH_4_STATE_55_RULE = Path.DATA_RTSG_N3_4_55_RULE;
 
 	public static void main(String[] args) throws IOException {
+//		String pathSrc = PATH_UMEO;
+//		String pathDiff = PATH_4_STATE_55_RULE;
+//		String folder = "dgm_umeo_vs_4_55";
+		
+//		String pathSrc = PATH_5_STATE_58_RULE;
+//		String pathDiff = PATH_4_STATE_55_RULE;
+//		String folder = "dgm_5_58_vs_4_55";
+		
+//		String pathSrc = PATH_5_STATE_HAND_CRAFT;
+//		String pathDiff = PATH_4_STATE_55_RULE;
+//		String folder = "dgm_5_72_vs_4_55";
+		
+//		String pathSrc = PATH_5_STATE_HAND_CRAFT;
+//		String pathDiff = PATH_5_STATE_58_RULE;
+//		String folder = "dgm_5_72_vs_5_58";
+		
+		String pathSrc = PATH_UMEO;
+		String pathDiff = PATH_5_STATE_58_RULE;
+		String folder = "test";
+		
+//		String pathSrc = PATH_UMEO;
+//		String pathDiff = PATH_5_STATE_HAND_CRAFT;
+//		String folder = "test";
+		
 		int maxTerms = 10;
-		Rule_Interface<Integer> rule = RuleReader.rtsgRuleFromTextFile("/home/nguyen/Bureau/umeo_gen/5state/redrule.txt", " ");
-		rule.setMaxTermsRTSG(maxTerms);
-		Simulator_Interface<Integer> sim = new Simulator<>(rule);
-		GConfig_Interface<Integer> initGC = rule.getGC0(maxTerms + 5);
-		Diagram_Interface<Integer> dgm = sim.getDiagram(initGC);
+		Rule_Interface<Integer> ruleSrc = RuleReader.rtsgRuleFromTextFile(pathSrc, " ");
+		ruleSrc.setMaxTermsRTSG(maxTerms);
+		Simulator_Interface<Integer> simSrc = new Simulator<>(ruleSrc);
+		Diagram_Interface<Integer> dgmSrc = simSrc.getDiagram(ruleSrc.getGC0(maxTerms + 5));
+		
+		Rule_Interface<Integer> ruleDiff = RuleReader.rtsgRuleFromTextFile(pathDiff, " ");
+		ruleDiff.setMaxTermsRTSG(maxTerms);
+		Simulator_Interface<Integer> simDiff = new Simulator<>(ruleDiff);
+		Diagram_Interface<Integer> dgmDiff = simDiff.getDiagram(ruleDiff.getGC0(maxTerms + 5));
+		
+		saveRTSGDGM(dgmSrc, dgmDiff, folder);
+	}
+
+	public static void saveRTSGDGM(Diagram_Interface<Integer> dgmSrc, Diagram_Interface<Integer> dgmDiff, String folder) throws FileNotFoundException {
+		String path = "/home/nguyen/Bureau/rtsg_test/img-tikz/" + folder;
+		File file = new File(path);
+		if (!file.exists())
+			file.mkdir();
 
 		TikzInterface tikz6State = new Tikz6State("\\Huge");
-		SaveDiagram.saveSubDgmTikz(dgm, 100, 150, 0, 10, 2, 0, true, true, 0, 0, tikz6State,
-				"/home/nguyen/Bureau/test_java_tikz/testsub.tikz");
-		
-		SaveDiagram.saveSurroundSubDgmTikz(dgm, 100, 150, 0, 12, 1, 1, true, true, 20, 0,
-				List.of(new Location(maxTerms + 3, 110, 4), new Location(maxTerms + 3, 120, 3)), 1, 1, "black", tikz6State,
-				"/home/nguyen/Bureau/test_java_tikz/testssub.tikz");
-		
-		
-		Diagram_Interface<Integer> dgm1 = new Diagram<>(dgm);
-		dgm1.getGConfig(3).replace(0, 4);
-		dgm1.getGConfig(24).replace(8, 4);
-		SaveDiagram.saveDiffDgmTikz(dgm, dgm1, 0, 30, 0, 12, 1, 1, true, true, 40, 0, tikz6State,
-				"/home/nguyen/Bureau/test_java_tikz/testdif.tikz");
-		
-		FileWriter.texFile(List.of("testsub.tikz"
-				, "testssub.tikz"
-				, "testdif.tikz"
-				), "/home/nguyen/Bureau/test_java_tikz/main_test.tex");
+
+		SaveDiagram.saveSubDgmTikz(dgmSrc, 0, 36, 0, 6, 1, 0, true, true, 0, 0, tikz6State,
+				path + "/dgm_src_0_36.tikz");
+		SaveDiagram.saveSubDgmTikz(dgmSrc, 37, 73, 0, 6, 1, 0, true, true, 10, 0, tikz6State,
+				path + "/dgm_src_37_73.tikz");
+
+		SaveDiagram.saveDiffDgmTikz(dgmSrc, dgmDiff, 0, 36, 0, 6, 1, 0, true, true, 30, 0, tikz6State,
+				path + "/dgm_diff_0_36.tikz");
+		SaveDiagram.saveDiffDgmTikz(dgmSrc, dgmDiff, 37, 73, 0, 6, 1, 0, true, true, 40, 0, tikz6State,
+				path + "/dgm_diff_37_73.tikz");
+
+		FileWriter.texFile(List.of("dgm_src_0_36.tikz", "dgm_src_37_73.tikz", "dgm_diff_0_36.tikz", "dgm_diff_37_73.tikz"),
+				path + "/main.tex");
 	}
 
 }
