@@ -21,11 +21,11 @@ public class MainDiagram {
 
 	public static void main(String[] args) throws IOException {
 		int maxTerms = 10;
-		Rule_Interface<String> rule = RuleReader.rtsgRuleFromTextFile("/home/nguyen/Bureau/umeo_gen/5state/redrule.txt", " ");
+		Rule_Interface<Integer> rule = RuleReader.rtsgRuleFromTextFile("/home/nguyen/Bureau/umeo_gen/5state/redrule.txt", " ");
 		rule.setMaxTermsRTSG(maxTerms);
-		Simulator_Interface<String> sim = new Simulator<>(rule);
-		GConfig_Interface<String> initGC = rule.getGC0(maxTerms + 5);
-		Diagram_Interface<String> dgm = sim.getDiagram(initGC);
+		Simulator_Interface<Integer> sim = new Simulator<>(rule);
+		GConfig_Interface<Integer> initGC = rule.getGC0(maxTerms + 5);
+		Diagram_Interface<Integer> dgm = sim.getDiagram(initGC);
 
 		TikzInterface tikz6State = new Tikz6State("\\Huge");
 		SaveDiagram.saveSubDgmTikz(dgm, 100, 150, 0, 10, 2, 0, true, true, 0, 0, tikz6State,
@@ -36,9 +36,9 @@ public class MainDiagram {
 				"/home/nguyen/Bureau/test_java_tikz/testssub.tikz");
 		
 		
-		Diagram_Interface<String> dgm1 = new Diagram<>(dgm);
-		dgm1.getGConfig(3).replace(0, "4");
-		dgm1.getGConfig(24).replace(8, "4");
+		Diagram_Interface<Integer> dgm1 = new Diagram<>(dgm);
+		dgm1.getGConfig(3).replace(0, 4);
+		dgm1.getGConfig(24).replace(8, 4);
 		SaveDiagram.saveDiffDgmTikz(dgm, dgm1, 0, 30, 0, 12, 1, 1, true, true, 40, 0, tikz6State,
 				"/home/nguyen/Bureau/test_java_tikz/testdif.tikz");
 		
