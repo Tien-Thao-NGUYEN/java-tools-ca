@@ -103,5 +103,10 @@ public class SolutionInfo<T> implements SolutionInfo_Interface<T> {
 	public int[] activePosition() {
 		return pg;
 	}
+	
+	@Override
+	public List<String> stringStateList() {
+		return stringStateList;
+	}
 
 }

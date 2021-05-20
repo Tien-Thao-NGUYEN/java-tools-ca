@@ -10,7 +10,7 @@ import simulator.interfaces.Simulator_Interface;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		RTSGRule rule = RuleReader.rtsgRuleFromTextFile("D:\\rule_4_55.txt");
+		RTSGRule rule = RuleReader.rtsgRuleFromTextFile("D:\\rule_4_55.txt", " ");
 		rule.setMaxTermsRTSG(10);
 		System.out.println(rule.size());
 		System.out.println(rule.allState().size());

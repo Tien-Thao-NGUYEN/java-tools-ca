@@ -1,7 +1,11 @@
 package simulator.interfaces;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import simulator.implement.LConfig;
+
 
 public interface LConfig_Interface<T> {
 	public void add(T state);
@@ -14,4 +18,8 @@ public interface LConfig_Interface<T> {
 	public LConfig_Interface<T> newLConfigByReverse();
 	public Stream<T> stream();
 	public LConfig_Interface<T> copy();
+	
+	public static <T> LConfig_Interface<String> getLConfigString(LConfig_Interface<T> lConfig) {
+		return new LConfig<>(lConfig.stream().map(e -> e.toString()).collect(Collectors.toList()));
+	}
 }

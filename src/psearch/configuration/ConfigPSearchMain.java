@@ -22,7 +22,7 @@ public class ConfigPSearchMain {
 		int beginSize = 2;
 		int endSize = 300;
 		int delta_t = 1;
-		FSSPRule rule = RuleReader.fsspRuleFromTextFile(Path.getOneOf718SolutionsFilter(sol));
+		FSSPRule rule = RuleReader.fsspRuleFromTextFile(Path.getOneOf718SolutionsFilter(sol), " ");
 		SolutionInfo_Interface<Integer> info = rule.getSolutionInfo();
 
 		System.out.println("****** build slt table and result location list******");

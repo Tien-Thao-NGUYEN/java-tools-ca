@@ -52,9 +52,9 @@ public class RuleReader {
 //		return new RuleData<>(info, map);
 //	}
 
-	private static SolutionInfo<Integer> parseStringInfo(String stringState, String stringInfo) {
-		List<String> stateList = List.of(stringState.split(" "));
-		String[] dataInfo = stringInfo.split(" ");
+	private static SolutionInfo<Integer> parseStringInfo(String stringState, String stringInfo, String separator) {
+		List<String> stateList = List.of(stringState.split(separator));
+		String[] dataInfo = stringInfo.split(separator);
 		String pgs = dataInfo[6];
 		int[] pg = null;
 
@@ -66,18 +66,18 @@ public class RuleReader {
 				Integer.valueOf(dataInfo[5]), pg);
 	}
 
-	public static RuleData<Integer, Integer> dataFromTextFile(String file) throws IOException {
+	public static RuleData<Integer, Integer> dataFromTextFile(String file, String separator) throws IOException {
 		FileInputStream fis = new FileInputStream(file);
 		LineNumberReader lnr = new LineNumberReader(new BufferedReader(new InputStreamReader(fis)));
 
 		String stringState = lnr.readLine();
 		String stringInfo = lnr.readLine();
-		SolutionInfo_Interface<Integer> info = parseStringInfo(stringState, stringInfo);
+		SolutionInfo_Interface<Integer> info = parseStringInfo(stringState, stringInfo, separator);
 
 		String line;
 		Map<LConfig_Interface<Integer>, Integer> map = new HashMap<>();
 		while ((line = lnr.readLine()) != null) {
-			String[] ts = line.split(" ");
+			String[] ts = line.split(separator);
 			LConfig<Integer> lc = new LConfig<>(
 					Arrays.asList(info.intState(ts[0]), info.intState(ts[1]), info.intState(ts[2])));
 			map.put(lc, info.intState(ts[3]));
@@ -89,17 +89,17 @@ public class RuleReader {
 		return new RuleData<>(info, map);
 	}
 
-	public static FSSPRule fsspRuleFromTextFile(String file) throws IOException {
-		RuleData<Integer, Integer> data = dataFromTextFile(file);
+	public static FSSPRule fsspRuleFromTextFile(String file, String separator) throws IOException {
+		RuleData<Integer, Integer> data = dataFromTextFile(file, separator);
 		return new FSSPRule(data.info(), data.map());
 	}
 	
-	public static RTSGRule rtsgRuleFromTextFile(String file) throws IOException {
-		RuleData<Integer, Integer> data = dataFromTextFile(file);
+	public static RTSGRule rtsgRuleFromTextFile(String file, String separator) throws IOException {
+		RuleData<Integer, Integer> data = dataFromTextFile(file, separator);
 		return new RTSGRule(data.info(), data.map());
 	}
 	
-	//TODO dung cho test égalité
+	//TODO dung cho test ï¿½galitï¿½
 //	public static RuleData<Integer, String> dataTestEquals(String file) throws IOException {
 //		FileInputStream fis = new FileInputStream(file);
 //		LineNumberReader lnr = new LineNumberReader(new BufferedReader(new InputStreamReader(fis)));
