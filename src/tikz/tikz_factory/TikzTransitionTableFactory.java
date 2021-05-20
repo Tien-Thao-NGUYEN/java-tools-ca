@@ -8,13 +8,13 @@ import simulator.interfaces.Rule_Interface;
 import tikz.tikz_itf_implement.TikzInterface;
 
 public class TikzTransitionTableFactory {
-	public static String oneState(String state, Rule_Interface<String> rule, String[] line, String[] column,
+	public static String oneState(Integer state, Rule_Interface<Integer> rule, int[] line, int[] column,
 			TikzInterface dstTikz) {
 		return diffState(state, rule, rule, line, column, dstTikz);
 	}
 
-	public static String diffState(String state, Rule_Interface<String> srcRule, Rule_Interface<String> dstRule,
-			String[] line, String[] column, TikzInterface dstTikz) {
+	public static String diffState(Integer state, Rule_Interface<Integer> srcRule, Rule_Interface<Integer> dstRule,
+			int[] line, int[] column, TikzInterface dstTikz) {
 
 		String sameStyle = "fill=white";
 		String diffStyle = "fill=lightgray";
@@ -33,16 +33,16 @@ public class TikzTransitionTableFactory {
 			strBuilder.append(TikzBaseElementFactory.drawNode(-1, -y, sameStyle, dstTikz.display(column[y])));
 
 		for (int y = 0; y < column.length; y++) {
-			String dstLeftState = column[y];
-			String srcLeftState = dstLeftState.equals(dstRule.spaceOutState()) ? srcRule.spaceOutState() : dstLeftState;
+			int dstLeftState = column[y];
+			int srcLeftState = dstLeftState == dstRule.spaceOutState() ? srcRule.spaceOutState() : dstLeftState;
 			for (int x = 0; x < line.length; x++) {
-				String dstRightState = line[x];
-				String srcRightState = dstRightState.equals(dstRule.spaceOutState()) ? srcRule.spaceOutState() : dstRightState;
+				int dstRightState = line[x];
+				int srcRightState = dstRightState == dstRule.spaceOutState() ? srcRule.spaceOutState() : dstRightState;
 
-				LConfig_Interface<String> srcLc = new LConfig<>(List.of(srcLeftState, state, srcRightState));
-				String srcRes = srcRule.transition(srcLc);
-				LConfig_Interface<String> dstLc = new LConfig<>(List.of(dstLeftState, state, dstRightState));
-				String dstRes = dstRule.transition(dstLc);
+				LConfig_Interface<Integer> srcLc = new LConfig<>(List.of(srcLeftState, state, srcRightState));
+				Integer srcRes = srcRule.transition(srcLc);
+				LConfig_Interface<Integer> dstLc = new LConfig<>(List.of(dstLeftState, state, dstRightState));
+				Integer dstRes = dstRule.transition(dstLc);
 
 				if (dstRes == null && srcRes != null)
 					strBuilder.append(TikzBaseElementFactory.drawNode(x, -y, diffStyle, " "));

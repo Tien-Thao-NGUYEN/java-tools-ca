@@ -8,7 +8,7 @@ import tikz.tikz_factory.TikzTransitionTableFactory;
 import tikz.tikz_itf_implement.TikzInterface;
 
 public class SaveTransitionTable {
-	public static void state(String state, Rule_Interface<String> rule, String[] line, String[] column, double valX,
+	public static void state(Integer state, Rule_Interface<Integer> rule, int[] line, int[] column, double valX,
 			double valY, TikzInterface tikz, String file)
 			throws FileNotFoundException {
 
@@ -19,8 +19,8 @@ public class SaveTransitionTable {
 		FileWriter.tikzFile(fileContent, file);
 	}
 
-	public static void diffState(String state, Rule_Interface<String> ruleSrc, Rule_Interface<String> ruleDst, String[] line,
-			String[] column, double valX, double valY, TikzInterface tikz, String file) throws FileNotFoundException {
+	public static void diffState(Integer state, Rule_Interface<Integer> ruleSrc, Rule_Interface<Integer> ruleDst, int[] line,
+			int[] column, double valX, double valY, TikzInterface tikz, String file) throws FileNotFoundException {
 
 		String defs = TikzBaseElementFactory.def(valX, valY);
 		String tikzDiffState = TikzTransitionTableFactory.diffState(state, ruleSrc, ruleDst, line, column, tikz); 

@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tikz.operation_for_tikz.Operations;
+import tikz.tikz_itf_implement.TikzAbstract;
 import tikz.tikz_itf_implement.TikzInterface;
 
 public class TikzLocalMapping {
-	private static String drawGridSubDt(List<List<String>> subDt, double currentBeginX, double currentBeginY) {
+	private static String drawGridSubDt(List<List<Integer>> subDt, double currentBeginX, double currentBeginY) {
 		StringBuilder strBuilder = new StringBuilder();
 		List<Integer> indexList = Operations.indexList(subDt);
 		for (int i = 0; i < indexList.size(); i += 2) {
-			int arrowIndex = subDt.get(indexList.get(i)).indexOf("=>");
+			int arrowIndex = subDt.get(indexList.get(i)).indexOf(TikzAbstract.FAT_ARROW);
 			arrowIndex = (arrowIndex == -1) ? subDt.get(indexList.get(i)).size() : arrowIndex;
 
 			double beginY = currentBeginY - indexList.get(i);
@@ -33,20 +34,20 @@ public class TikzLocalMapping {
 		return strBuilder.toString();
 	}
 
-	private static String ofSubDt(List<List<String>> subDt, double currentBeginX, double currentBeginY,
+	private static String ofSubDt(List<List<Integer>> subDt, double currentBeginX, double currentBeginY,
 			TikzInterface tikzItfSrc, TikzInterface tikzItfDst) {
 		StringBuilder strBuilder = new StringBuilder();
 
 		double currentY = currentBeginY;
 
 		for (int indElem = 0; indElem < subDt.size(); indElem++) {
-			List<String> elem = subDt.get(indElem);
+			List<Integer> elem = subDt.get(indElem);
 
 			TikzInterface tikz = tikzItfSrc;
 			for (int pos = 0; pos < elem.size(); pos++) {
 				double currentX = currentBeginX + pos;
-				String state = elem.get(pos);
-				if (state.equals("=>"))
+				int state = elem.get(pos);
+				if (state == TikzAbstract.FAT_ARROW)
 					tikz = tikzItfDst;
 				String symbol = tikz.display(state);
 				String nodeStyle = tikz.nodeStyle(state);
@@ -60,24 +61,24 @@ public class TikzLocalMapping {
 		return strBuilder.toString();
 	}
 
-	public static String ofMapping(List<List<List<String>>> localMapping, List<List<Integer>> divise,
+	public static String ofMapping(List<List<List<Integer>>> localMapping, List<List<Integer>> divise,
 			TikzInterface tikzItfSrc, TikzInterface tikzItfDst, List<String> labelList) {
 		StringBuilder strBuilder = new StringBuilder();
 
 		int sommeMaxDiv = 0;
 		double currentBeginY = 0;
 		for (int dt = 0; dt < localMapping.size(); dt++) {
-			List<List<String>> localMappingDt = localMapping.get(dt);
+			List<List<Integer>> localMappingDt = localMapping.get(dt);
 			List<Integer> divDt = divise.get(dt);
 			sommeMaxDiv += divDt.get(1);
-			List<List<List<String>>> subDtList = new ArrayList<>();
+			List<List<List<Integer>>> subDtList = new ArrayList<>();
 			for (int i = 0; i < divDt.size() - 1; i++)
 				subDtList.add(localMappingDt.subList(divDt.get(i), divDt.get(i + 1)));
 
 			String label = labelList == null ? "" : labelList.get(dt);
 			strBuilder.append(TikzBaseElementFactory.drawNode(-1.5, currentBeginY + 0.5, "", label));
 			for (int index = 0; index < subDtList.size(); index++) {
-				List<List<String>> subDt = subDtList.get(index);
+				List<List<Integer>> subDt = subDtList.get(index);
 				double currentX = index * (subDt.get(0).size() + 2);
 				double currentY = currentBeginY;
 				strBuilder.append(ofSubDt(subDt, currentX, currentY, tikzItfSrc, tikzItfDst));

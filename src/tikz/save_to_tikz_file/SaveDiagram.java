@@ -11,7 +11,7 @@ import tikz.tikz_itf_implement.TikzInterface;
 
 public class SaveDiagram {
 	
-	public static void saveDiffDgmTikz(Diagram_Interface<String> sDgm, Diagram_Interface<String> difDgm, int beginTime, int endTime, int beginCell,
+	public static void saveDiffDgmTikz(Diagram_Interface<Integer> sDgm, Diagram_Interface<Integer> difDgm, int beginTime, int endTime, int beginCell,
 			int endCell, int nOLeft, int nORight, boolean showCell, boolean showTime, double valX, double valY,
 			TikzInterface tikz, String file) throws FileNotFoundException {
 
@@ -22,7 +22,7 @@ public class SaveDiagram {
 		FileWriter.tikzFile(tikzDiff, file);
 	}
 
-	public static void saveSubDgmTikz(Diagram_Interface<String> dgm, int beginTime, int endTime, int beginCell, int endCell,
+	public static void saveSubDgmTikz(Diagram_Interface<Integer> dgm, int beginTime, int endTime, int beginCell, int endCell,
 			int nbrLeftSymbol, int nbrRightSymbol, boolean showCell, boolean showTime, double valX, double valY,
 			TikzInterface tikzItf, String file) throws FileNotFoundException {
 
@@ -34,7 +34,7 @@ public class SaveDiagram {
 		FileWriter.tikzFile(tikzDgm, file);
 	}
 
-	public static void saveSurroundSubDgmTikz(Diagram_Interface<String> dgm, int beginTime, int endTime, int beginCell, int endCell,
+	public static void saveSurroundSubDgmTikz(Diagram_Interface<Integer> dgm, int beginTime, int endTime, int beginCell, int endCell,
 			int nOLeft, int nORight, boolean showCell, boolean showTime, double valX, double valY,
 			List<Location> locationList, int nLeftUnit, int nRightUnit, String colorSurrond, TikzInterface tikzItf,
 			String file) throws FileNotFoundException {

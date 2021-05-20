@@ -2,10 +2,7 @@ package simulator.interfaces;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import rule.FSSPRule;
-import rule.RTSGRule;
 
 public interface Rule_Interface<T> {
 
@@ -40,18 +37,5 @@ public interface Rule_Interface<T> {
 	public void setMaxTermsRTSG(int numberMax);
 
 	public GConfig_Interface<T> getGC0(int size);
-
-	private static <T> Map<LConfig_Interface<String>, String> toMapString(Rule_Interface<T> rule) {
-		return rule.getMap().entrySet().stream().collect(Collectors.toMap(
-				entry -> LConfig_Interface.getLConfigString(entry.getKey()), entry -> entry.getValue().toString()));
-	}
-
-	public static <T> Rule_Interface<String> getRTSGRuleString(Rule_Interface<T> rule) {
-		return new RTSGRule(SolutionInfo_Interface.getSolutionInfoString(rule.getSolutionInfo()), toMapString(rule));
-	}
-
-	public static <T> Rule_Interface<String> getFSSPRuleString(Rule_Interface<T> rule) {
-		return new FSSPRule(toMapString(rule), SolutionInfo_Interface.getSolutionInfoString(rule.getSolutionInfo()));
-	}
 
 }
