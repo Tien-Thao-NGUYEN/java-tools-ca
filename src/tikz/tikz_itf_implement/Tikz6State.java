@@ -11,19 +11,19 @@ public class Tikz6State extends TikzAbstract {
 		if (state == null)
 			return "";
 
-		if (state == FAT_ARROW)
+		if (state.equals(FAT_ARROW))
 			return "\\Large $\\to$";
 
-		if (state == DOTS)
+		if (state.equals(DOTS))
 			return symbolStyle + " $\\dots$";
 
-		if (state == VDOTS)
+		if (state.equals(VDOTS))
 			return symbolStyle + " $\\vdots$";
 
-		if (state == EMPTY)
+		if (state.equals(EMPTY))
 			return " ";
 
-		if (state == SIM)
+		if (state.equals(SIM))
 			return symbolStyle + " $\\tt \\sim$";
 
 		switch (state) {
@@ -42,7 +42,7 @@ public class Tikz6State extends TikzAbstract {
 		case 6:
 			return symbolStyle + " $\\tt \\star$";
 		default:
-			System.out.println("Error : State" + state + " not found !!!");
+			System.out.println("Error (display): State " + state + " not found !!!");
 			return null;
 		}
 	}
@@ -52,7 +52,8 @@ public class Tikz6State extends TikzAbstract {
 		if (state == null)
 			return "fill=gray";
 
-		if (state == FAT_ARROW || state == DOTS || state == VDOTS || state == EMPTY || state == SIM)
+		if (state.equals(FAT_ARROW) || state.equals(DOTS) || state.equals(VDOTS) || state.equals(EMPTY)
+				|| state.equals(SIM))
 			return "fill=white";
 
 		switch (state) {
@@ -71,7 +72,7 @@ public class Tikz6State extends TikzAbstract {
 		case 6:
 			return "fill=white";
 		default:
-			System.out.println("Error : State" + state + " not found !!!");
+			System.out.println("Error (nodeStyle): State " + state + " not found !!!");
 			return null;
 		}
 	}

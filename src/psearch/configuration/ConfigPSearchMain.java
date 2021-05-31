@@ -18,7 +18,7 @@ import simulator.interfaces.SolutionInfo_Interface;
 public class ConfigPSearchMain {
 
 	public static void main(String[] args) throws IOException {
-		int sol = 3;
+		int sol = 718;
 		int beginSize = 2;
 		int endSize = 300;
 		int delta_t = 1;

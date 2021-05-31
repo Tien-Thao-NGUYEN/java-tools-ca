@@ -29,11 +29,11 @@ public class MainTransitionTable {
 //		String[] columnDiff = new String[] { "0", "5", "1", "2", "3", "4", "6" };
 //		String folder = "rule_umeo";
 
-		String pathSrc = PATH_UMEO;
-		String pathDiff = PATH_5_STATE_HAND_CRAFT;
-		int[] lineDiff = new int[] { 0, 1, 2, 3, 4 };
-		int[] columnDiff = new int[] { 0, 1, 2, 3, 4, 6 };
-		String folder = "test";
+//		String pathSrc = PATH_UMEO;
+//		String pathDiff = PATH_5_STATE_HAND_CRAFT;
+//		int[] lineDiff = new int[] { 0, 1, 2, 3, 4 };
+//		int[] columnDiff = new int[] { 0, 1, 2, 3, 4, 6 };
+//		String folder = "test";
 
 //		String pathSrc = PATH_5_STATE_HAND_CRAFT;
 //		String pathDiff = PATH_5_STATE_58_RULE;
@@ -47,6 +47,12 @@ public class MainTransitionTable {
 //		String[] columnDiff = new String[] { "0", "1", "2", "3", "6" };
 //		String folder = "rule_4_55_compare_to_5_58";
 
+		String pathSrc = Path.getOneOf718SolutionsFilter(0);
+		String pathDiff = Path.getOneOf718SolutionsFilter(0);
+		int[] lineDiff = new int[] { 0, 1, 2, 3, 4, 5, 6 };
+		int[] columnDiff = new int[] { 0, 1, 2, 3, 4, 5, 6 };
+		String folder = "test";
+		
 		Rule_Interface<Integer> ruleSrc = RuleReader.rtsgRuleFromTextFile(pathSrc, " ");
 		ruleSrc.setMaxTermsRTSG(10);
 		Rule_Interface<Integer> ruleDiff = RuleReader.rtsgRuleFromTextFile(pathDiff, " ");
@@ -57,10 +63,10 @@ public class MainTransitionTable {
 
 	public static void buildRule(Rule_Interface<Integer> ruleSrc, Rule_Interface<Integer> ruleDiff, int[] lineDiff,
 			int[] columnDiff, String folder) throws FileNotFoundException {
-		String path = "/home/nguyen/Bureau/rtsg_test/img-tikz/" + folder;
+		String path = "./img-tikz/" + folder;
 		File file = new File(path);
 		if (!file.exists())
-			file.mkdir();
+			file.mkdirs();
 
 		TikzInterface tikz6State = new Tikz6State("\\Huge");
 		List<String> fileList = new ArrayList<>();

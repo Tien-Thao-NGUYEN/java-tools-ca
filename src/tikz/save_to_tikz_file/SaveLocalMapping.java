@@ -1,5 +1,6 @@
 package tikz.save_to_tikz_file;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -17,12 +18,16 @@ public class SaveLocalMapping {
 		final int EMPTY = TikzAbstract.EMPTY;
 		final int VDOTS = TikzAbstract.VDOTS;
 		
-		String path = "/home/nguyen/Bureau/img_these/rtsg/local_mapping_6state_to_5state/";
+		String path = "./img-tikz/lm/";
+		File file = new File(path);
+		if (!file.exists())
+			file.mkdir();
+		
 		TikzInterface tikz6State = new Tikz6State("\\Huge");
 
 		// LMap
-		List<List<Integer>> dt0 = List.of(List.of(1, TikzAbstract.FAT_ARROW, 1), List.of(0, TikzAbstract.FAT_ARROW, 0),
-				List.of(6, TikzAbstract.FAT_ARROW, 6));
+		List<List<Integer>> dt0 = List.of(List.of(1, FAT_ARROW, 1), List.of(0, FAT_ARROW, 0),
+				List.of(6, FAT_ARROW, 6));
 		List<List<Integer>> dt1 = new ArrayList<>();
 		dt1.add(List.of(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY));
 		dt1.add(List.of(EMPTY, VDOTS, EMPTY, EMPTY, VDOTS));
