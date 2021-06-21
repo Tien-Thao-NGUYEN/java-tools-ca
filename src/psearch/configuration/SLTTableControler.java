@@ -35,6 +35,7 @@ public class SLTTableControler {
 		}
 	}
 
+	
 	private static <T> void takeNewLTransitionDelta_t(Diagram_Interface<T> dgm, int nCellLeft, int nCellRight, int delta_t, T o,
 			List<SLTransition<T>> sltList, Set<Tuple<T>> existeTuple) {
 		int t_end = dgm.timeFin() - delta_t - 1;
@@ -67,6 +68,7 @@ public class SLTTableControler {
 
 	}
 	
+	private static int endS;
 	public static Map<Integer, List<SLTransition<Integer>>> getSLTTable(Rule_Interface<Integer> rule, int beginSize, int endSize,
 			int delta_t) {
 		int nCellLeft = rule.getSolutionInfo().nCellLeft();
@@ -80,10 +82,20 @@ public class SLTTableControler {
 		Set<Tuple<Integer>> existeTuple = new HashSet<>();
 
 		Simulator_Interface<Integer> sim = new Simulator<>(rule);
-		for (int size = beginSize; size <= endSize; size++) {
+		endS = endSize;
+		for (int size = beginSize; size <= endS; size++) {
 			Diagram_Interface<Integer> dgm = sim.getDiagram(rule.getGC0(size));
 			SLTTableControler.extractDtSLTFromDgm(dgm, nCellLeft, nCellRight, delta_t, o, sltTable, existeTuple);
+			
+			//ajouter pour calculer endSize
+			Location lastLocation = resultLocationList.get(resultLocationList.size() - 1);
+			if (lastLocation.getSize() * 2 > endS) {
+				endS = lastLocation.getSize() * 2;
+				endSize = endS;
+			}
 		}
+		
+		System.out.println("endS = " + endS);
 
 		return sltTable;
 	}
